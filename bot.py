@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.debug = True
 
 # server data
-server_url = 'https://24f3c9c827bb.ngrok.io'
+server_url = '52.56.139.250'
 
 # geo data                
 provinces_and_their_districts = {
