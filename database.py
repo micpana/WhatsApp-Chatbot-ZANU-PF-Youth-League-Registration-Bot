@@ -7,7 +7,7 @@ import urllib
 
 
 # connect('zpyl', host='mongomock://localhost', alias='default')
-# connect('zpyl2', host='localhost', port=27017, alias='default')
-connect(host='') # Live DB
+connect('zpyl6', host='localhost', port=27017, alias='default')
+# connect(host='') # Live DB
 def init_db():
     members = Members.objects.all()

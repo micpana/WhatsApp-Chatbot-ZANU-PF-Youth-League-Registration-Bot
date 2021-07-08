@@ -16,10 +16,11 @@ class Members(Document):
     province = StringField(required=True)
     district = StringField(required=True)
     polling_station = StringField(required=True)
-    branch = StringField(required=True)
-    youth_league = StringField(required=True)
+    occupation = StringField(required=True)
+    membership = StringField(required=True)
     profile_image = StringField(required=True)
     date_of_registration = StringField(required=True)
+    password = StringField(required=False)
 
 class Requests(Document):
     meta = {'collection': 'requests'}

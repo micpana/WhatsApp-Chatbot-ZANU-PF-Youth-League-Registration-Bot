@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.debug = True
 
 # server data
-server_url = '52.56.139.250'
+server_url = 'https://8ee6af2885dd.ngrok.io'
 
 # geo data                
 provinces_and_their_districts = {
@@ -260,27 +260,27 @@ def bot():
                 next_root_option = 'polling_station'
 
                 # add current income message to last request's response ,(Make first string character a capital letter)
-                Requests.objects(id = last_request.id).update(user_response = district.capitalize())
+                Requests.objects(id = last_request.id).update(user_response = district)
 
             
             if root_option == 'polling_station':
                 save_request = True
                 
                 response_body = (
-                    'What is your current branch?'
+                    'What is your current occupation?'
                 )
 
-                next_root_option = 'branch'
+                next_root_option = 'occupation'
 
                 # add current income message to last request's response ,(Make first string character a capital letter)
                 Requests.objects(id = last_request.id).update(user_response = incoming_msg.capitalize())
 
 
-            if root_option == 'branch':
+            if root_option == 'occupation':
                 save_request = True
                 
                 response_body = (
-                    'Select Your Membership\n\n'
+                    'Type the number of your Membership\n\n'
                     '1. Youth League\n'
                     '2. Main Wing\n'
                     '3. Women League\n'
@@ -350,7 +350,7 @@ def bot():
                         province = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'province')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'province'))-1].user_response,
                         district = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'district')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'district'))-1].user_response,
                         polling_station = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'polling_station')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'polling_station'))-1].user_response,
-                        branch = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'branch')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'branch'))-1].user_response,
+                        occupation = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'occupation')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'occupation'))-1].user_response,
                         membership = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'membership')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'membership'))-1].user_response,
                         profile_image = 'none',
                         date_of_registration = str(datetime.now())
@@ -394,7 +394,7 @@ def bot():
                         province = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'province')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'province'))-1].user_response,
                         district = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'district')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'district'))-1].user_response,
                         polling_station = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'polling_station')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'polling_station'))-1].user_response,
-                        branch = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'branch')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'branch'))-1].user_response,
+                        occupation = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'occupation')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'occupation'))-1].user_response,
                         membership = Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'membership')[len(Requests.objects.filter(phonenumber = str(sender_num_with_country_code), root_option = 'membership'))-1].user_response,
                         profile_image = img_name+img_ext,
                         date_of_registration = str(datetime.now())
@@ -439,7 +439,7 @@ def bot():
 
         if ((incoming_msg == 'hie') or (incoming_msg == 'join') or (incoming_msg == 'pfee') or (incoming_msg == 'help')): # trigger messages
             response_body = (
-                'Hi there! Thank you for using our ZANU YEDU on WhatsApp. Are you ready to get started with YEDU? Press *1*\n'
+                'Hi there! Thank you for using our ZANUPF *YOUTH LEAGUE* on WhatsApp. Are you ready to get started? *Press 1*\n'
                 'By proceeding with registration, you are agreeing with our T&Cs.\n\n\n'
                 '*Explore other options:*\n'
                 '2. About\n'
@@ -447,7 +447,7 @@ def bot():
             )
 
             message = client.messages.create(
-                media_url=['https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_ZANU-PF.svg/800px-Flag_of_ZANU-PF.svg.png'],
+                media_url=['https://pbs.twimg.com/media/E1mo67GXMAECaa0.jpg'],
                 body=response_body,
                 from_='whatsapp:' + phonenumber,
                 to='whatsapp:' + sender_num_with_country_code
@@ -529,7 +529,7 @@ def bot():
             )
 
             message = client.messages.create(
-                media_url=['https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_ZANU-PF.svg/800px-Flag_of_ZANU-PF.svg.png'],
+                media_url=['https://pbs.twimg.com/media/E1mo67GXMAECaa0.jpg'],
                 body=response_body,
                 from_='whatsapp:' + phonenumber,
                 to='whatsapp:' + sender_num_with_country_code
@@ -587,7 +587,7 @@ def bot():
                 province = member.province
                 district = member.district
                 polling_station = member.polling_station
-                branch = member.branch
+                occupation = member.occupation
                 membership = member.membership
                 profile_image = member.profile_image
                 date_of_registration = member.date_of_registration
@@ -602,19 +602,26 @@ def bot():
                     'Province: \n{}\n\n'
                     'District: \n{}\n\n'
                     'Polling Station: \n{}\n\n'
-                    'Branch: \n{}\n\n'
-                    'Youth League: \n{}\n\n'
+                    'Occupation: \n{}\n\n'
+                    'Membership: \n{}\n\n'
                     'Date Of Registration: \n{}\n\n'
-                ).format(firstname, lastname, national_id_number, phone_number, home_address, province, district, polling_station, branch, membership, date_of_registration[0:16])
+                ).format(firstname, lastname, national_id_number, phone_number, home_address, province, district, polling_station, occupation, membership, date_of_registration[0:16])
                 
                 image_url = server_url + '/media/' + profile_image
 
-                message = client.messages.create(
-                    media_url=[image_url],
-                    body=response_body,
-                    from_='whatsapp:' + phonenumber,
-                    to='whatsapp:' + sender_num_with_country_code
-                )
+                if profile_image == 'none':
+                    message = client.messages.create(
+                        body=response_body,
+                        from_='whatsapp:' + phonenumber,
+                        to='whatsapp:' + sender_num_with_country_code
+                    )
+                else:
+                    message = client.messages.create(
+                        media_url=[image_url],
+                        body=response_body,
+                        from_='whatsapp:' + phonenumber,
+                        to='whatsapp:' + sender_num_with_country_code
+                    )
 
                 # save request details
                 request_details = Requests(
@@ -664,6 +671,118 @@ def media(filename):
     folder_path = root / 'profile-images'
 
     return send_from_directory(folder_path, filename, as_attachment=True)
+
+# portal functions *********************************************************************************
+@app.route('/downloadDatabase', methods=['POST'])
+def downloadDatabase():
+    user_id = ''
+    
+    try:
+        user_access_token = request.form['user_access_token']
+        user_id = AccessTokens.objects.filter(id = user_access_token, active = True)[0].user_id
+    except:
+        return 'Not authorized'
+
+    all_members = Members.objects.all()
+
+    import pandas as pd
+    import numpy as np
+    from collections import deque
+
+    members_dict = {
+        'National ID': deque([]),
+        'Firstname': deque([]),
+        'Lastname': deque([]),
+        'Phonenumber': deque([]),
+        'Home Address': deque([]),
+        'Province': deque([]),
+        'District': deque([]),
+        'Polling Station': deque([]),
+        'Membership': deque([]),
+        'Date Of Registration': deque([])
+    }
+    members_columns = list(members_dict)
+
+    for member in all_members:
+        members_dict['National ID'].append(member.national_id_number)
+        members_dict['Firstname'].append(member.firstname)
+        members_dict['Lastname'].append(member.lastname)
+        members_dict['Phonenumber'].append(member.phonenumber)
+        members_dict['Home Address'].append(member.home_address)
+        members_dict['Province'].append(member.province)
+        members_dict['District'].append(member.district)
+        members_dict['Polling Station'].append(polling_station)
+        members_dict['Occupation'].append(occupation)
+        members_dict['Membership Type'].append(member.membership)
+        members_dict['Date Of Registration'].append(member.date_of_registration)
+
+    
+    dataframe = pd.DataFrame(members_dict, columns=members_columns)
+
+    dataframe.to_excel(r'members.xlsx', index = False)
+
+    return send_file('members.xlsx', as_attachment=True)
+
+@app.route('/signin', methods=['POST'])
+def signin():
+    phonenumber = request.form['phonenumber']
+    password = request.form['password']
+
+    member = Members.objects.filter(phonenumber = phonenumber)
+
+    if len(member) != 0:
+        user_encrypted_password = member[0].password
+        is_password_entered_true = check_encrypted_password(password, user_encrypted_password)
+
+        if is_password_entered_true == True:
+            user_id = member[0].id
+
+            token = AccessTokens(
+                user_id = str(user_id),
+                active = True,
+                signin_date = str(datetime.now())
+            )
+            token_details = token.save()
+            access_token = token_details.id
+
+            return_object = {
+                'status': 'Signin successful',
+                'access_token': str(access_token)
+            }
+
+            return jsonify(return_object)
+
+        elif is_password_entered_true == False:
+            return_object = {
+                'status': 'Signin failed, incorrect details entered'
+            }
+            return jsonify(return_object)
+    else:
+        return_object = {
+            'status': 'Signin failed, incorrect details entered'
+        }
+        return jsonify(return_object)
+
+@app.route('/deactivateAccessToken', methods=['POST'])
+def deactivateAccessToken():
+
+    try:
+        token = request.form['token']
+        AccessTokens.objects(id=token).update(active = False)
+        return 'Token deactivated'
+    except:
+        return 'Invalid token'
+
+@app.route('/getUserByAccessToken', methods=['POST'])
+def getUserByAccessToken():
+
+    try:
+        access_token = request.form['access_token']
+        user_id = AccessTokens.objects.filter(id=access_token, active = True)[0].user_id
+        user_data = Members.objects.filter(id=user_id)[0]
+        return user_data.to_json()
+    except:
+        return 'Invalid token'
 
 if __name__ == "__main__":
     init_db()
