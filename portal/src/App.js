@@ -5,7 +5,6 @@ import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
 import PageNotFound from './components/page_not_found'
 import SignIn from './components/signin'
-import Signup from './components/signup'
 import Dashboard from './components/dashboard'
 
 class App extends Component {
