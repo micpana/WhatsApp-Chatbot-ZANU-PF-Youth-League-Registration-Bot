@@ -21,6 +21,7 @@ class Members(Document):
     profile_image = StringField(required=True)
     date_of_registration = StringField(required=True)
     password = StringField(required=False)
+    branch = StringField(required=False)
 
 class Requests(Document):
     meta = {'collection': 'requests'}
@@ -29,3 +30,9 @@ class Requests(Document):
     root_option = StringField(required=True)
     user_response = StringField(required=True)
     date_of_request = StringField(required=True)
+
+class AccessTokens(Document):
+    meta = {'collection': 'accesstokens'}
+    user_id = StringField(required=True)
+    active = BooleanField(required=True)
+    signin_date = StringField(required=True)

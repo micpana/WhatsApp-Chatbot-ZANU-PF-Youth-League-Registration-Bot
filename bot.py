@@ -9,13 +9,22 @@ from imageai.Prediction.Custom import CustomImagePrediction
 from twilio.rest import Client
 # database items
 from database import init_db
-from models import Members, Requests
+from models import Members, Requests, AccessTokens
+from encrypt import encrypt_password, check_encrypted_password
+from flask import jsonify
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 app.debug = True
 
 # server data
 server_url = 'https://8ee6af2885dd.ngrok.io'
+
+# Cross Origin Stuff
+app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['CORS_HEADERS'] = 'Access-Control-Allow-Origin'
+# app.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
+cors = CORS(app)
 
 # geo data                
 provinces_and_their_districts = {
@@ -673,15 +682,15 @@ def media(filename):
     return send_from_directory(folder_path, filename, as_attachment=True)
 
 # portal functions *********************************************************************************
-@app.route('/downloadDatabase', methods=['POST'])
+@app.route('/downloadDatabase', methods=['GET', 'POST'])
 def downloadDatabase():
     user_id = ''
     
-    try:
-        user_access_token = request.form['user_access_token']
-        user_id = AccessTokens.objects.filter(id = user_access_token, active = True)[0].user_id
-    except:
-        return 'Not authorized'
+    # try:
+    #     user_access_token = request.form['user_access_token']
+    #     user_id = AccessTokens.objects.filter(id = user_access_token, active = True)[0].user_id
+    # except:
+    #     return 'Not authorized'
 
     all_members = Members.objects.all()
 
@@ -698,7 +707,8 @@ def downloadDatabase():
         'Province': deque([]),
         'District': deque([]),
         'Polling Station': deque([]),
-        'Membership': deque([]),
+        'Occupation': deque([]),
+        'Membership Type': deque([]),
         'Date Of Registration': deque([])
     }
     members_columns = list(members_dict)
@@ -711,8 +721,8 @@ def downloadDatabase():
         members_dict['Home Address'].append(member.home_address)
         members_dict['Province'].append(member.province)
         members_dict['District'].append(member.district)
-        members_dict['Polling Station'].append(polling_station)
-        members_dict['Occupation'].append(occupation)
+        members_dict['Polling Station'].append(member.polling_station)
+        members_dict['Occupation'].append(member.occupation)
         members_dict['Membership Type'].append(member.membership)
         members_dict['Date Of Registration'].append(member.date_of_registration)
 
@@ -763,26 +773,22 @@ def signin():
         }
         return jsonify(return_object)
 
-@app.route('/deactivateAccessToken', methods=['POST'])
-def deactivateAccessToken():
-
+@app.route('/deactivateAccessToken/<token>', methods=['GET'])
+def deactivateAccessToken(token):
     try:
-        token = request.form['token']
         AccessTokens.objects(id=token).update(active = False)
         return 'Token deactivated'
     except:
         return 'Invalid token'
 
-@app.route('/getUserByAccessToken', methods=['POST'])
-def getUserByAccessToken():
-
+@app.route('/getUserDetailsByAccessToken/<access_token>', methods=['GET'])
+def getUserById(access_token):
     try:
-        access_token = request.form['access_token']
         user_id = AccessTokens.objects.filter(id=access_token, active = True)[0].user_id
         user_data = Members.objects.filter(id=user_id)[0]
         return user_data.to_json()
     except:
-        return 'Invalid token'
+        return 'Not authorized'
 
 if __name__ == "__main__":
     init_db()

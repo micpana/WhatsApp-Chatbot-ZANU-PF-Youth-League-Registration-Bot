@@ -15,7 +15,7 @@ import Background_Image from '../images/image_1.jpg'
     constructor(props) { 
       super(props);
       this.state = {
-        email: '',
+        phonenumber: '',
         password: ''
     };
 
@@ -23,20 +23,20 @@ import Background_Image from '../images/image_1.jpg'
     this.SignIn = (e) => {
         e.preventDefault()
         const { cookies } = this.props
-        var email = this.state.email
+        var phonenumber = this.state.phonenumber
         var password = this.state.password
 
         var data = new FormData() 
-        data.append('email', email)
+        data.append('phonenumber', phonenumber)
         data.append('password', password)
         
         axios.post(Backend_Url + 'signin', data)
         .then((res) => {
             let result = res.data
-            if(result.status == 'failed'){
+            if(result.status == 'Signin failed, incorrect details entered'){
                 alert('Incorrent details entered.')
-            }else if(result.status == 'successful'){
-                cookies.set('token', result.id, { path: '/' })
+            }else if(result.status == 'Signin successful'){
+                cookies.set('token', result.access_token, { path: '/' })
                 let port = (window.location.port ? ':' + window.location.port : '')
                 window.location.href = '//' + window.location.hostname + port + '/dashboard'
             }else{
@@ -76,15 +76,15 @@ import Background_Image from '../images/image_1.jpg'
                 <br/><br/><br/><br/><br/>
                 <Row>
                   <Col>
-                    <h4 style={{color: '#F0453A', fontWeight: 'bold'}}>Sign In</h4>
+                    <h4 style={{color: '#1faced', fontWeight: 'bold'}}>Sign In</h4>
                   </Col>
                 </Row>
                 <br/><br/>
                 <Row>
                   <Col>
                     <InputGroup>
-                      <Input  style={{border: 'none', borderBottom: '1px solid #F0453A', color: 'inherit', backgroundColor: 'inherit'}} placeholder="Email address" type="text" name="email" id="email" 
-                      value={this.state.email} onChange={this.HandleChange} />
+                      <Input  style={{border: 'none', borderBottom: '1px solid #1faced', color: 'inherit', backgroundColor: 'inherit'}} placeholder="Phonenumber e.g +263782345678" type="text" name="phonenumber" id="phonenumber" 
+                      value={this.state.phonenumber} onChange={this.HandleChange} />
                     </InputGroup> 
                   </Col>
                 </Row>
@@ -92,22 +92,21 @@ import Background_Image from '../images/image_1.jpg'
                 <Row>
                   <Col>
                     <InputGroup>
-                      <Input  style={{border: 'none', borderBottom: '1px solid #F0453A', color: 'inherit', backgroundColor: 'inherit'}} placeholder="Password" type="password" name="password" id="password" 
+                      <Input  style={{border: 'none', borderBottom: '1px solid #1faced', color: 'inherit', backgroundColor: 'inherit'}} placeholder="Password" type="password" name="password" id="password" 
                       value={this.state.password} onChange={this.HandleChange} />
                     </InputGroup> 
                   </Col>
                 </Row>
                 <br/><br/><br/>
-                <Button type="submit" style={{backgroundColor: '#F0453A', color: '#FFFFFF', border: 'none', borderRadius: '20px', fontWeight: 'bold', width: '120px'}}>SignIn</Button>{' '}
-                <Button color="secondary" href="/" style={{backgroundColor: '#F0453A', color: '#FFFFFF', border: 'none', borderRadius: '20px', fontWeight: 'bold', width: '120px'}}>Cancel</Button>
+                <Button type="submit" style={{backgroundColor: '#1faced', color: '#FFFFFF', border: 'none', borderRadius: '20px', fontWeight: 'bold', width: '120px'}}>SignIn</Button>{' '}
+                <Button color="secondary" href="/" style={{backgroundColor: '#1faced', color: '#FFFFFF', border: 'none', borderRadius: '20px', fontWeight: 'bold', width: '120px'}}>Cancel</Button>
                 </Container>
                 </Form>
               </Col>
-              <Col style={{backgroundColor: '#F0453A', minHeight: '630px', color: '#FFFFFF'}}>
+              <Col style={{backgroundColor: '#1faced', minHeight: '630px', color: '#FFFFFF'}}>
                 <h3 style={{marginTop: '170px'}}>
-                  SALES ANALYTICS
+                  ZANUPF YOUTH LEAGUE
                 </h3>
-                <h5 style={{marginTop: '70px'}}>Not yet registered? <a href='/signup' style={{color: '#FFFFFF'}}>Click here to signup.</a></h5>
               </Col>
             </Row>
           </div>
