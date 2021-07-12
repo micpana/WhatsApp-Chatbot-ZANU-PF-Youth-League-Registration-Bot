@@ -121,9 +121,9 @@ provinces_and_their_districts = {
 @app.route('/bot', methods=['POST'])
 def bot():
     # Twilio variables
-    account_sid = ''
-    auth_token = ''
-    phonenumber = ''
+    account_sid = '' # account_sid here
+    auth_token = '' # auth token here
+    phonenumber = '' # Twilio phone number here
     client = Client(account_sid, auth_token)
 
     # extract request data
