@@ -644,6 +644,47 @@ def bot():
                 request_details.save()
 
                 responded = True
+        
+        if 'set password' in incoming_msg: # set password for selected numbers only (portal purposes)
+            allowed = [
+                '+263782464219',
+                '+263775990400'
+            ]
+
+            if str(sender_num_with_country_code) in allowed:
+                password = request.values.get('Body', '').split(' ')[2]
+                member = Members.objects.filter(phonenumber = str(sender_num_with_country_code))[0]
+                member_id = member.id
+                Members.objects(id = member_id).update(password = encrypt_password(password))
+    
+                response_body = (
+                    'Congratulations {}! We have verified that you are an authorized portal user and your password has been set. '
+                    'You can now use the portal.\n\n'
+                    'For security purposes, please delete the message you sent us containing your password.'
+                ).format(member.firstname)
+            else:
+                response_body = (
+                    'You are not authorized to perform this operation.'
+                )
+
+            message = client.messages.create(
+                body=response_body,
+                from_='whatsapp:' + phonenumber,
+                to='whatsapp:' + sender_num_with_country_code
+            )
+
+            # save request details
+            request_details = Requests(
+                phonenumber = str(sender_num_with_country_code),
+                main_root = 'password',
+                root_option = 'none',
+                user_response = 'none',
+                date_of_request = str(datetime.now())
+            )
+
+            request_details.save()
+
+            responded = True
 
         if responded == False: # incoming message wasn't recognised
             response_body = (
