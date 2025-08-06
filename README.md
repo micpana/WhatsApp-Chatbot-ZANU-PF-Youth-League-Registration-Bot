@@ -1,5 +1,5 @@
 
-# 🇿🇼 WhatsApp Chatbot – ZANU PF Youth League Registration Bot - 2021
+# 🇿🇼 WhatsApp Chatbot – ZANU PF Youth League Registration Bot - 2021 
 
 This project is a WhatsApp-based chatbot built with Flask and Twilio that facilitates digital membership registration for the ZANU PF Youth League. It automates user onboarding, profile management, and provides access to a centralized database of registered members.
 
